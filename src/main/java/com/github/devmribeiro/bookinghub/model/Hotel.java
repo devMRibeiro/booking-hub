@@ -2,18 +2,26 @@ package com.github.devmribeiro.bookinghub.model;
 
 import com.github.devmribeiro.bookinghub.util.Address;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "hotel")
 public class Hotel {
+	@Id
+	@SequenceGenerator(name = "hotel_id_seq", sequenceName = "hotel_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hotel_id_seq")
+	@Column(name = "hotel_id")
 	private Integer hotelId;
+	
 	private String name;
 	private Integer roomQuantity;
 	private Address address;
-
-	public Hotel(Integer hotelId, String name, Integer roomQuantity, Address address) {
-		this.hotelId = hotelId;
-		this.name = name;
-		this.roomQuantity = roomQuantity;
-		this.address = address;
-	}
 
 	public Integer getHotelId() {
 		return hotelId;

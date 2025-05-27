@@ -1,10 +1,22 @@
 package com.github.devmribeiro.bookinghub.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "room")
 public class Room {
+	@Id
+	@SequenceGenerator(name="room_id_seq", sequenceName="room_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="room_id_seq")
+	@Column(name="room_id", updatable=false)
 	private Integer roomId;
+
 	private String label;
 	private Integer capacity;
 	private String type;
