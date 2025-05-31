@@ -1,12 +1,16 @@
 package com.github.devmribeiro.bookinghub.model;
 
+import java.util.List;
+
 import com.github.devmribeiro.bookinghub.util.Address;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -23,6 +27,12 @@ public class Hotel {
 	private Integer roomQuantity;
 	private Address address;
 
+	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+	private List<Staff> staffList;
+
+	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+	private List<Room> roomList;
+	
 	public Integer getHotelId() {
 		return hotelId;
 	}
