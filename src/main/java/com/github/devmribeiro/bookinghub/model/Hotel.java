@@ -6,6 +6,7 @@ import com.github.devmribeiro.bookinghub.util.Address;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,13 +26,13 @@ public class Hotel {
 	
 	private String name;
 	private Integer roomQuantity;
-	private Address address;
+	private @Embedded Address address;
 
 	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
-	private List<Staff> staffList;
+	private List<Staff> staffs;
 
 	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
-	private List<Room> roomList;
+	private List<Room> rooms;
 	
 	public Integer getHotelId() {
 		return hotelId;
@@ -56,5 +57,17 @@ public class Hotel {
 	}
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+	public List<Room> getRooms() {
+		return rooms;
+	}
+	public void setRooms(List<Room> rooms) {
+		this.rooms = rooms;
+	}
+	public List<Staff> getStaffs() {
+		return staffs;
+	}
+	public void setStaffs(List<Staff> staffs) {
+		this.staffs = staffs;
 	}
 }
