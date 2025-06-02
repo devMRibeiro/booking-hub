@@ -2,13 +2,17 @@ package com.github.devmribeiro.bookinghub.abstracts;
 
 import com.github.devmribeiro.bookinghub.util.Address;
 
+import jakarta.persistence.Embedded;
+import jakarta.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class Person {
 	private String name;
 	private String document;
 	private String email;
 	private String phone;
 	private String birthDate;
-	private Address address;
+	private @Embedded Address address;
 
 	public Person(String name, String document, String email, String phone, String birthDate, Address address) {
 		this.name = name;
