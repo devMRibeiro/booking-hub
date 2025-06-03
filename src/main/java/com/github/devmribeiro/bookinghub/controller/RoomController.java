@@ -26,18 +26,17 @@ public class RoomController {
 	}
 
 	@GetMapping("/list")
-	@ResponseBody
-	public ResponseEntity<List<RoomResponseDTO>> list(
+	public @ResponseBody ResponseEntity<List<RoomResponseDTO>> list(
 			@RequestParam(value = "capacity", required = false) Integer capacity,
 			@RequestParam(value = "type", required = false) String type) {
 
 		List<Room> result = service.list(capacity, type);
-		
+
 	    if (result == null || result.isEmpty())
 	        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		
+
 	    List<RoomResponseDTO> response = result.stream()
-	            .map(RoomResponseDTO::new)
+	            .map(room -> new RoomResponseDTO(room))
 	            .collect(Collectors.toList());
 
 	    return ResponseEntity.ok(response);
