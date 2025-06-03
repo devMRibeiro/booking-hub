@@ -16,9 +16,20 @@ public class RoomService {
 		this.repository = repository;
 	}
 
-	public List<Room> list(String type) {
-		if (type == null || type.isBlank())
-			return repository.findAll();
-		return repository.findByType(type); 
+	public List<Room> list(Integer capacity, String type) {
+		if (capacity != null && type != null || !type.isBlank())
+			return repository.findByTypeAndCapacity(type, capacity);
+
+		if (capacity != null)
+			return repository.findByCapacity(capacity);
+
+		if (type != null && !type.isBlank())
+			return repository.findByType(type);
+
+		return repository.findAll(); 
+	}
+
+	public List<Room> findAll() {
+		return repository.findAll(); 
 	}
 }

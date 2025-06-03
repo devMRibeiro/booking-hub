@@ -9,6 +9,7 @@ import com.github.devmribeiro.bookinghub.model.Room;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Integer> {
-	List<Room> findAll();
 	List<Room> findByType(String type);
+	List<Room> findByCapacity(Integer capacity);
+	List<Room> findByTypeAndCapacity(String type, Integer capacity);
 }
