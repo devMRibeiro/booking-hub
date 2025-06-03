@@ -11,7 +11,7 @@ import com.github.devmribeiro.bookinghub.repository.RoomRepository;
 public class RoomService {
 
 	private final RoomRepository repository;
-	
+
 	public RoomService(RoomRepository repository) {
 		this.repository = repository;
 	}
@@ -26,10 +26,6 @@ public class RoomService {
 		if (type != null && !type.isBlank())
 			return repository.findByType(type);
 
-		return repository.findAll(); 
-	}
-
-	public List<Room> findAll() {
 		return repository.findAll(); 
 	}
 }
