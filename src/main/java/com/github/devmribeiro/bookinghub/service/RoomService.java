@@ -24,7 +24,7 @@ public class RoomService {
 			return repository.findByCapacity(capacity);
 
 		if (type != null && !type.isBlank())
-			return repository.findByType(type);
+			return repository.findAvailableByType(type);
 
 		return repository.findAll(); 
 	}
