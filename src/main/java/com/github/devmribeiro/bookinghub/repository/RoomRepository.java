@@ -11,8 +11,11 @@ import com.github.devmribeiro.bookinghub.model.Room;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Integer> {
+	@Query(value = "select r.room_id, r.hotel_id, r.capacity, r.label, r.type from room r left join booking b on b.room_id = r.room_id where b.room_id is null", nativeQuery = true)
+	List<Room> findAll();
+	
 	@Query(value = "select r.room_id, r.hotel_id, r.capacity, r.label, r.type from room r left join booking b on b.room_id = r.room_id where b.room_id is null and r.type = :type", nativeQuery = true)
-	List<Room> findAvailableByType(@Param("type") String type);
+	List<Room> findByType(@Param("type") String type);
 
 	@Query(value = "select r.room_id, r.hotel_id, r.capacity, r.label, r.type from room r left join booking b on b.room_id = r.room_id where b.room_id is null and r.capacity = :capacity", nativeQuery = true)
 	List<Room> findByCapacity(@Param("capacity") Integer capacity);
