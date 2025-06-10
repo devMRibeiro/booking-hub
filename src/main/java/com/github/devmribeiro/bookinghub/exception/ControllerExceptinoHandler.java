@@ -22,4 +22,16 @@ public class ControllerExceptinoHandler {
 				),
 				HttpStatus.BAD_REQUEST);
 	}
+
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<ErrorMessage> resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
+		return new ResponseEntity<ErrorMessage>(
+				new ErrorMessage(
+						HttpStatus.NOT_FOUND.value(),
+						LocalDateTime.now(),
+						ex.getMessage(),
+						request.getDescription(false)
+				),
+				HttpStatus.NOT_FOUND);
+	}
 }
