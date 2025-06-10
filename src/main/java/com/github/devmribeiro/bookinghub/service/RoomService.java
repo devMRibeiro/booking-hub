@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.github.devmribeiro.bookinghub.exception.InvalidInputException;
+import com.github.devmribeiro.bookinghub.exception.ResourceNotFoundException;
 import com.github.devmribeiro.bookinghub.model.Room;
 import com.github.devmribeiro.bookinghub.repository.RoomRepository;
 
@@ -15,6 +16,15 @@ public class RoomService {
 
 	public RoomService(RoomRepository repository) {
 		this.repository = repository;
+	}
+
+	public Room listById(Integer roomId) {
+		Room room = repository.findByRoomId(roomId);
+
+		if (room == null)
+			throw new ResourceNotFoundException("Room available with roomId not found");
+
+		return room;
 	}
 
 	public List<Room> list(Integer capacity, String type) {

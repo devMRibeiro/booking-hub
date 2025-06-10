@@ -28,7 +28,12 @@ public class RoomController {
 	public RoomController(RoomService service) {
 		this.service = service;
 	}
-	
+
+	@GetMapping("/{roomId}")
+	public @ResponseBody ResponseEntity<RoomResponseDTO> listById(@RequestParam("roomId") Integer roomId) {
+		return ResponseEntity.ok(new RoomResponseDTO(service.listById(roomId)));
+	}
+
 	@GetMapping("/list")
 	public @ResponseBody ResponseEntity<List<RoomResponseDTO>> list(
 			@RequestParam(value = "capacity", required = false) Integer capacity,
@@ -45,12 +50,12 @@ public class RoomController {
 
 	    return ResponseEntity.ok(response);
 	}
-	
+
 	@PostMapping("/create")
 	public ResponseEntity<RoomResponseDTO> create(@RequestBody RoomCreateDTO dto) {
 	    Room createdRoom = service.create(dto.toEntity(dto));
 	    RoomResponseDTO responseDTO = new RoomResponseDTO(createdRoom);
-	    URI location = URI.create("/rooms/" + createdRoom.getRoomId());
+	    URI location = URI.create("/room/" + createdRoom.getRoomId());
 	    return ResponseEntity
 	            .created(location)
 	            .body(responseDTO);
