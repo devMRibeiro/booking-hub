@@ -28,7 +28,7 @@ public class RoomService {
 	}
 
 	public List<Room> list(Integer capacity, String type) {
-		if (capacity != null && type != null || !type.isBlank())
+		if (capacity != null && type != null && !type.isBlank())
 			return repository.findByTypeAndCapacity(type, capacity);
 
 		if (capacity != null)
