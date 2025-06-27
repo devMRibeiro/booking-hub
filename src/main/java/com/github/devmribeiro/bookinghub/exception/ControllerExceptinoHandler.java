@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -19,8 +20,9 @@ public class ControllerExceptinoHandler {
 						LocalDateTime.now(),
 						ex.getMessage(),
 						request.getDescription(false)
-				),
-				HttpStatus.BAD_REQUEST);
+			),
+			HttpStatus.BAD_REQUEST
+		);
 	}
 
 	@ExceptionHandler(ResourceNotFoundException.class)
@@ -31,7 +33,34 @@ public class ControllerExceptinoHandler {
 						LocalDateTime.now(),
 						ex.getMessage(),
 						request.getDescription(false)
-				),
-				HttpStatus.NOT_FOUND);
+			),
+			HttpStatus.NOT_FOUND
+		);
+	}
+
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<ErrorMessage> httpMessageNotReadable(HttpMessageNotReadableException ex, WebRequest request) {
+		return new ResponseEntity<>(
+			new ErrorMessage(
+				HttpStatus.BAD_REQUEST.value(),
+				LocalDateTime.now(),
+				"Invalid or missing request body",
+				request.getDescription(false)
+			),
+			HttpStatus.BAD_REQUEST
+		);
+	}
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorMessage> handleGeneralException(Exception ex, WebRequest request) {
+		return new ResponseEntity<>(
+			new ErrorMessage(
+				HttpStatus.INTERNAL_SERVER_ERROR.value(),
+				LocalDateTime.now(),
+				"An unexpected error occurred",
+				request.getDescription(false)
+			),
+			HttpStatus.INTERNAL_SERVER_ERROR
+		);
 	}
 }
