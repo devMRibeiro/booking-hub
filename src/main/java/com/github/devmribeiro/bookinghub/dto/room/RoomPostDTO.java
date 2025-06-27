@@ -2,12 +2,12 @@ package com.github.devmribeiro.bookinghub.dto.room;
 
 import com.github.devmribeiro.bookinghub.model.Room;
 
-public class RoomCreateDTO {
+public class RoomPostDTO {
 	private String label;
 	private Integer capacity;
 	private String type;
 
-	public Room toEntity(RoomCreateDTO dto) {
+	public Room toEntity(RoomPostDTO dto) {
 		Room room = new Room();
 		room.setLabel(dto.getLabel());
 		room.setCapacity(dto.getCapacity());
