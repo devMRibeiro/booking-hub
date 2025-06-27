@@ -7,17 +7,20 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.devmribeiro.bookinghub.dto.room.RoomCreateDTO;
+import com.github.devmribeiro.bookinghub.dto.room.RoomPostDTO;
 import com.github.devmribeiro.bookinghub.dto.room.RoomResponseDTO;
 import com.github.devmribeiro.bookinghub.model.Room;
 import com.github.devmribeiro.bookinghub.service.RoomService;
+import com.github.devmribeiro.bookinghub.util.ApiResponse;
 
 @RestController
 @RequestMapping("/room")
@@ -52,12 +55,17 @@ public class RoomController {
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<RoomResponseDTO> create(@RequestBody RoomCreateDTO dto) {
+	public ResponseEntity<ApiResponse> create(@RequestBody RoomPostDTO dto) {
 	    Room createdRoom = service.create(dto.toEntity(dto));
-	    RoomResponseDTO responseDTO = new RoomResponseDTO(createdRoom);
 	    URI location = URI.create("/room/" + createdRoom.getRoomId());
-	    return ResponseEntity
-	            .created(location)
-	            .body(responseDTO);
+	    return 
+    		ResponseEntity
+    		.created(location)
+    		.body(new ApiResponse("Successfully Added Room", createdRoom.getRoomId()));
+	}
+
+	@PutMapping("/edit/{roomId}")
+	public ResponseEntity<RoomResponseDTO> edit(@PathVariable Integer roomId, @RequestBody RoomPostDTO dto) {
+		return ResponseEntity.ok(new RoomResponseDTO(service.edit(roomId, dto.toEntity(dto))));
 	}
 }
