@@ -83,4 +83,14 @@ public class RoomService {
 
 		return repository.save(originalRoom);
 	}
+
+	public void delete(Integer roomId) {
+		if (roomId == null || roomId < 1)
+			throw new InvalidInputException("Invalid Room ID");
+
+		if (repository.findByRoomId(roomId) == null)
+			throw new ResourceNotFoundException("Room with ID " + roomId + " not found");
+
+		repository.deleteById(roomId);
+	}
 }
