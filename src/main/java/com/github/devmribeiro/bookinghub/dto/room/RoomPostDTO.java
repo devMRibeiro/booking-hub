@@ -7,11 +7,11 @@ public class RoomPostDTO {
 	private Integer capacity;
 	private String type;
 
-	public Room toEntity(RoomPostDTO dto) {
+	public Room toEntity() {
 		Room room = new Room();
-		room.setLabel(dto.getLabel());
-		room.setCapacity(dto.getCapacity());
-		room.setType(dto.getType());
+		room.setLabel(this.label);
+		room.setCapacity(this.capacity);
+		room.setType(this.type);
 		return room;
 	}
 	
