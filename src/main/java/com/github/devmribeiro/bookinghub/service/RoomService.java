@@ -18,8 +18,8 @@ public class RoomService {
 		this.repository = repository;
 	}
 
-	public Room listById(Integer roomId) {
-		Room room = repository.findByRoomId(roomId);
+	public Room listById(Integer roomId, Integer hotelId) {
+		Room room = repository.findByRoomId(roomId, hotelId);
 
 		if (room == null)
 			throw new ResourceNotFoundException("Room available with roomId not found");
@@ -27,17 +27,17 @@ public class RoomService {
 		return room;
 	}
 
-	public List<Room> list(Integer capacity, String type) {
+	public List<Room> list(Integer capacity, String type, Integer hotelId) {
 		if (capacity != null && type != null && !type.isBlank())
-			return repository.findByTypeAndCapacity(type, capacity);
+			return repository.findByTypeAndCapacity(type, capacity, hotelId);
 
 		if (capacity != null)
-			return repository.findByCapacity(capacity);
+			return repository.findByCapacity(capacity, hotelId);
 
 		if (type != null && !type.isBlank())
-			return repository.findByType(type);
+			return repository.findByType(type, hotelId);
 
-		return repository.findAll(); 
+		return repository.findAll(hotelId); 
 	}
 
 	public Room create(Room room) {
@@ -56,7 +56,7 @@ public class RoomService {
 		return repository.save(room);
 	}
 	
-	public Room edit(Integer roomId, Room room) {
+	public Room edit(Integer roomId, Room room, Integer hotelId) {
 		if (roomId == null || roomId < 1)
 			throw new InvalidInputException("Invalid Room ID");
 
@@ -72,7 +72,7 @@ public class RoomService {
 		if (room.getCapacity() == null || room.getCapacity() < 1)
 			throw new InvalidInputException("Capacity field cannot be empty or less than 1");
 
-		Room originalRoom = repository.findByRoomId(roomId);
+		Room originalRoom = repository.findByRoomId(roomId, hotelId);
 
 		if (originalRoom == null)
 			throw new ResourceNotFoundException("Room with ID " + roomId + " not found");
@@ -84,11 +84,11 @@ public class RoomService {
 		return repository.save(originalRoom);
 	}
 
-	public void delete(Integer roomId) {
+	public void delete(Integer roomId, Integer hotelId) {
 		if (roomId == null || roomId < 1)
 			throw new InvalidInputException("Invalid Room ID");
 
-		if (repository.findByRoomId(roomId) == null)
+		if (repository.findByRoomId(roomId, hotelId) == null)
 			throw new ResourceNotFoundException("Room with ID " + roomId + " not found");
 
 		repository.deleteById(roomId);
